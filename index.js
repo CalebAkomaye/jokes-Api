@@ -18,6 +18,13 @@ app.get('/jokes/:id', (req, res) => {
 })
 
 
+app.get('/filter', (req, res) => {
+      const params = req.query.type;
+      const joke = jokes.filter((joke) => joke.jokeType.toLowerCase() === params.toLowerCase())
+      res.status(200).json(joke)
+})
+
+
 
 
 
