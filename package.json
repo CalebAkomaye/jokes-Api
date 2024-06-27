@@ -1,0 +1,20 @@
+{
+  "name": "jokes-api",
+  "version": "1.0.0",
+  "description": "a public api to deliver joy to the world",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --env-file=.env index.js"
+  },
+  "author": "Caleb Akomaye",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
