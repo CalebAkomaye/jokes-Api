@@ -1,12 +1,24 @@
 import express from "express";
 const app = express();
 
-const PORT = 3000
+const PORT = 3000;
 
 app.get('/random', (req, res) => {
-      const random = Math.floor(Math.random() * jokes.length)
-      res.json(jokes[random])
+      const random = Math.floor(Math.random() * jokes.length);
+      res.status(200).json(jokes[random]);
 })
+
+
+app.get('/jokes/:id', (req, res) => {
+      // const id = parseInt(req.params.id);
+      const id = req.params.id;
+      const joke = jokes.find((joke) => joke.id == id);
+      console.log(joke)
+      res.status(200).json(joke);
+})
+
+
+
 
 
 let jokes = [
@@ -583,5 +595,5 @@ let jokes = [
 ];
 
 app.listen(PORT, () => {
-      console.log(`server running on port ${PORT}`)
+      console.log(`server running on port ${PORT}`);
 })
