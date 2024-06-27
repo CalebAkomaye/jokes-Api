@@ -15,7 +15,6 @@ app.get('/jokes/:id', (req, res) => {
       // const id = parseInt(req.params.id);
       const id = req.params.id;
       const joke = jokes.find((joke) => joke.id == id);
-      console.log(joke)
       res.status(200).json(joke);
 })
 
@@ -70,6 +69,19 @@ app.patch('/jokes/:id', (req, res) => {
 
       res.json(updatedJoke);
 });
+
+
+app.delete('/jokes/:id', (req, res) => {
+      const id = parseInt(req.params.id);
+      const jokeIndex = jokes.findIndex((joke) => joke.id === id)
+      if (jokeIndex !== -1) {
+            jokes.splice(jokeIndex, 1);
+            res.status(200).json(jokes)
+      } else {
+            res.status(404).json({ error: `Joke with id: ${id} Not Found; No Jokes were deleted` })
+      }
+})
+
 
 
 let jokes = [
