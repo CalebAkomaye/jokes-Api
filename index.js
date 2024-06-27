@@ -1,7 +1,9 @@
-import express from "express";
+import express, { urlencoded } from "express";
+import bodyParser from "body-parser";
 const app = express();
-
 const PORT = 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/random', (req, res) => {
       const random = Math.floor(Math.random() * jokes.length);
@@ -17,6 +19,8 @@ app.get('/jokes/:id', (req, res) => {
       res.status(200).json(joke);
 })
 
+app.get('/jokes', (req, res) => res.json(jokes))
+
 
 app.get('/filter', (req, res) => {
       const params = req.query.type;
@@ -25,7 +29,47 @@ app.get('/filter', (req, res) => {
 })
 
 
+app.post('/jokes', (req, res) => {
+      const newjoke = {
+            id: jokes.length + 1,
+            jokeText: req.body.text,
+            jokeType: req.body.type,
+      }
+      jokes.push(newjoke)
+      res.json(jokes.slice(jokes.length - 1))
+})
 
+
+app.put('/jokes/:id', (req, res) => {
+      const id = parseInt(req.params.id);
+      const toUpdate = {
+            id: id,
+            jokeText: req.body.text,
+            jokeType: req.body.type
+      }
+
+      const jokeIndex = jokes.findIndex((joke) => joke.id == id)
+      console.log(jokeIndex)
+      jokes[jokeIndex] = toUpdate;
+      res.json(jokes[jokeIndex])
+})
+
+
+app.patch('/jokes/:id', (req, res) => {
+      const id = parseInt(req.params.id);
+      const jokeIndex = jokes.findIndex((joke) => joke.id === id);
+
+      const existingJoke = jokes[jokeIndex];
+      const updatedJoke = {
+            ...existingJoke,
+            jokeText: req.body.text || existingJoke.jokeText,
+            jokeType: req.body.type || existingJoke.jokeType
+      };
+
+      jokes[jokeIndex] = updatedJoke;
+
+      res.json(updatedJoke);
+});
 
 
 let jokes = [
